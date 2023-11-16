@@ -1,0 +1,30 @@
+{% extends "frontend/index.html" %}
+
+{% load static %}
+
+{% block extrahead %}
+<link rel="stylesheet" href="{% static "css/dr.css" %}">
+{% endblock %}
+
+{%block title %} Get FX Data {% endblock %}
+
+{% block content %}
+
+
+    <h1>
+        Trying to give you some data, which one of these request do you want to send?
+    </h1>
+
+    <div class = "dr_container">
+        <ul class= "dr_ul">
+            {% for item in data_list %}
+                <li> <a class = "dr_li" href= "{% url 'frontend:view_data' item.id %}">
+                    <h2 class = 'dr_heading'>{{ item.FX_Pair }}</h2>
+                    <p class = 'dr_p'>Granularity: {{ item.Granularity }}</p>
+                    <p class = 'dr_p'>Start: {{ item.Start_Date }}</p>
+                    <p class = 'dr_p'>End: {{ item.End_Date }}</p>
+                </a></li>
+            {% endfor %}
+        </ul>
+    </div>
+{% endblock content %}

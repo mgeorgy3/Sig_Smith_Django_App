@@ -1,0 +1,40 @@
+{% extends "frontend/index.html" %}
+
+{% load static %}
+
+{%load rest_framework %}
+
+{%block title %} Get FX Data {% endblock %}
+
+{% block content %}
+
+{% comment %} <div id= "test_react_app"> 
+<script src="{% static "frontend/main.js" %}"> </script> 
+
+{% endcomment %}
+
+     {% comment %} <form action='form' method="post">
+        {% csrf_token %}
+        {{form}}
+        <input type="submit" value="Save">
+    </form> {% endcomment %}
+
+    {% comment %} <label for="FX_Pair"> FX_PAIR_LABEL</label>
+        <input id="FX_PAIR" type="text" name="" value="{{ FX_Pair }}">
+        <label for="Granularity"> Granularity</label>
+        <input id="Granularity" type="text" name="" value="{{ Granularity }}">
+        <label for="Start_Date"> Start Date</label>
+        <input id="Start_Date" type="text" name="" value="{{ Start_Date }}">
+        <label for="End_Date"> End Date </label>
+        <input id="End_Date" type="text" name="" value="{{ End_Date }}"> {% endcomment %}
+    
+    <form action='form' method="post" class="custom-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <input type="submit" value="Save" class="btn-submit">
+    </form>
+
+    
+    
+    
+{% endblock content %}

@@ -1,0 +1,42 @@
+{% extends "frontend/index.html" %}
+
+{% load static %}
+
+
+
+{%block title %} Charts {% endblock %}
+
+{% block content %}
+
+
+<h1>
+
+    some variable
+
+</h1>
+
+<div class="grid">
+
+    <div class="grid-item-below-navbar">
+        <h2 class="currency_header"></h2>
+        <div class="chart_container" id="container1">
+            
+        </div>
+    </div>
+
+    <div class = "paragraph">
+        <p>
+            This will describe the chart and whats going on in it.
+            This will describe the chart and whats going on in it.
+            This will describe the chart and whats going on in it.
+            This will describe the chart and whats going on in it.
+        </p>
+    </div>
+
+    <script src="{% static 'frontend/main.js' %}"></script>
+
+</div>
+
+
+
+{% endblock content %}

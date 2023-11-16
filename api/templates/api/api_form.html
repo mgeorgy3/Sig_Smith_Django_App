@@ -1,0 +1,27 @@
+{% extends "frontend/index.html" %}
+
+{% load static %}
+
+{%load rest_framework %}
+
+{%block title %} Get FX Data {% endblock %}
+
+{% block content %}
+
+
+    <h1>
+        What time series do you want to store?
+    </h1>
+
+    <form action= 'post_api_form' method = "POST" class = 'custom-form' >
+        {% csrf_token %}
+        {% render_form serializer %}
+        <input type="submit" value="Save" class="btn-submit">
+    </form>
+
+
+
+    
+    
+    
+{% endblock content %}
