@@ -3,6 +3,10 @@ from api.models import OANDA_Request_Paramaters
 # Create your views here.
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404, render
+from django.shortcuts import render, redirect
+from django.contrib.auth import login
+from .models import CustomUserCreationForm
+
 
 def main(request):
     print("AT LEAST I AM HERE")
@@ -37,3 +41,17 @@ def view_data(request, *args, **kwargs):
     
     return render(request,"frontend/view_charts.html", kwargs)
 
+
+
+def create_user(request):
+
+    if request.method == 'POST':
+        form = CustomUserCreationForm(request.POST)
+        if form.is_valid():
+            user = form.save()
+            login(request, user)
+            return render(request, 'frontend/charts.html')  # Replace 'home' with the name of your home view or URL
+    else:
+        form = CustomUserCreationForm()
+
+    return render(request, 'users/login_form.html', {'form': form})

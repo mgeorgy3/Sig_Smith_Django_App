@@ -123,7 +123,7 @@ class OANDA_Request_View(APIView):
         
         oanda_serializer.save()
 
-        template = loader.get_template("api/api_form.html")
+        #template = loader.get_template("api/api_form.html")
         
         return render(request, 'api/succesful_entry.html', {'serializer': oanda_serializer})
     
