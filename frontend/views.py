@@ -22,8 +22,6 @@ def charts(request):
 
     return HttpResponse(template.render(request = request))
 
-def index(request, *args, **kwargs):
-    return render(request, 'frontend/index.html')
 
 def display_data_list(request):
 
@@ -55,3 +53,4 @@ def create_user(request):
         form = CustomUserCreationForm()
 
     return render(request, 'users/login_form.html', {'form': form})
+

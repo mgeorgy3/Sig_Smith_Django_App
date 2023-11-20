@@ -138,3 +138,15 @@ class OANDA_Request_View(APIView):
                               'oanda_request': oanda_request})
 
 
+
+def send_OANDA_request(request, *args, **kwargs):
+    template = loader.get_template("frontend/view_charts.html")
+    
+    print(kwargs['id'])
+
+    data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
+    
+    return render(request,"frontend/view_charts.html", kwargs)
+    
+
+

@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import { createRoot } from 'react-dom/client';
 import { createChart } from 'lightweight-charts';
 
 function formatDayWithLeadingZero(date) {
@@ -88,8 +87,9 @@ export default class Candle_Data extends Component {
         
     render() {
         return (
-            <div></div>
+            <div>{console.log("PLEASSE LOG")}</div>
           );
     }
 }
+
 

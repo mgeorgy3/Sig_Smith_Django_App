@@ -30,6 +30,7 @@ module.exports = {
     }),
   ],
 }; */
+const { SourceMapDevToolPlugin } = require("webpack");
 
 const path = require("path");
 const webpack = require("webpack");
@@ -43,6 +44,7 @@ module.exports = (env, argv) => {
       path: path.resolve(__dirname, "./static/frontend"),
       filename: "[name].js",
     },
+    devtool: isProduction ? 'source-map' : 'cheap-module-source-map',
     module: {
       rules: [
         {
@@ -50,7 +52,7 @@ module.exports = (env, argv) => {
           exclude: /node_modules/,
           use: {
             loader: "babel-loader",
-          },
+          }
         },
       ],
     },
@@ -61,6 +63,20 @@ module.exports = (env, argv) => {
       new webpack.DefinePlugin({
         "process.env.NODE_ENV": JSON.stringify(argv.mode),
       }),
+      new SourceMapDevToolPlugin({
+        filename: "[file].map"
+      }),
     ],
+    devServer: {
+      devtool: 'source-map',
+      // other configurations...
+      devMiddleware: {
+        // other options...
+        options: {
+          sourceMap: true,
+        },
+      },
+    },
+
   };
 };
