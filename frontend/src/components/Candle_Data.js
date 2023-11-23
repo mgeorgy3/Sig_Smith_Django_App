@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import { createChart } from 'lightweight-charts';
+import { Grid } from "@material-ui/core";
 
 function formatDayWithLeadingZero(date) {
     if (!(date instanceof Date)) {
@@ -87,7 +88,21 @@ export default class Candle_Data extends Component {
         
     render() {
         return (
-            <div>{console.log("PLEASSE LOG")}</div>
+            <div className="grid-item-below-navbar">
+                <h2 className="currency_header">USD/CAD</h2>
+                <div className="chart_container" id={this.props.containerId}>
+            </div>
+            
+
+            <div className = "paragraph">
+                <p>
+                    This will describe the chart and whats going on in it.
+                    This will describe the chart and whats going on in it.
+                    This will describe the chart and whats going on in it.
+                    This will describe the chart and whats going on in it.
+                </p>
+            </div>
+            </div>
           );
     }
 }

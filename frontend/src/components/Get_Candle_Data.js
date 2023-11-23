@@ -1,6 +1,19 @@
 //const axios = require('axios'); // You may need to install Axios if you haven't already
 //import axios from 'axios'
-import { Component } from 'react';
+import React, { Component } from 'react';
+import { createChart } from 'lightweight-charts';
+
+function formatDayWithLeadingZero(date) {
+    if (!(date instanceof Date)) {
+      throw new Error('Input is not a valid Date object.');
+    }
+  
+    const year = date.getFullYear();
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Add 1 to the month since it's 0-indexed
+    const day = date.getDate().toString().padStart(2, '0');
+  
+    return `${year}-${month}-${day}`;
+  }
 
 
 export default class Get_Candle_Data extends Component {
@@ -21,7 +34,7 @@ export default class Get_Candle_Data extends Component {
 
     fetchData() {
 
-        console.log(" I AM IN GET CANDLE_Data JS and Fetch Data");
+        
         const candle_Data = require('./output.json')
 
         for (let index = 0; index < candle_Data.length; index++) {
@@ -64,6 +77,8 @@ export default class Get_Candle_Data extends Component {
             { type: 'solid', color: 'black' } } };
 
         this.chart = createChart(document.getElementById(this.props.containerId), chartOptions);
+
+        console.log(this.props.dataId)
         
 
         const areaSeries = this.chart.addAreaSeries({
@@ -79,7 +94,21 @@ export default class Get_Candle_Data extends Component {
         
     render() {
         return (
-            <div></div>
+            <div className="grid-item-below-navbar">
+                <h2 className="currency_header">USD/CAD</h2>
+                <div className="chart_container" id={this.props.containerId}>
+            </div>
+            
+
+            <div className = "paragraph">
+                <p>
+                    This will describe the chart and whats going on in it.
+                    This will describe the chart and whats going on in it.
+                    This will describe the chart and whats going on in it.
+                    This will describe the chart and whats going on in it.
+                </p>
+            </div>
+            </div>
           );
     }
 }

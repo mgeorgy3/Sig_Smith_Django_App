@@ -4303,6 +4303,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var lightweight_charts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lightweight-charts */ "./node_modules/lightweight-charts/dist/lightweight-charts.development.mjs");
 
 
+
 function formatDayWithLeadingZero(date) {
   if (!(date instanceof Date)) {
     throw new Error('Input is not a valid Date object.');
@@ -4377,7 +4378,16 @@ class Candle_Data extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     candlestickSeries.setData(this.CandleDATA_ARRAY);
   }
   render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", null, console.log("PLEASSE LOG"));
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "grid-item-below-navbar"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
+      className: "currency_header"
+    }, "USD/CAD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "chart_container",
+      id: this.props.containerId
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "paragraph"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "This will describe the chart and whats going on in it. This will describe the chart and whats going on in it. This will describe the chart and whats going on in it. This will describe the chart and whats going on in it.")));
   }
 }
 
@@ -4395,9 +4405,20 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony export */ });
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! react */ "./node_modules/react/index.js");
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var lightweight_charts__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! lightweight-charts */ "./node_modules/lightweight-charts/dist/lightweight-charts.development.mjs");
 //const axios = require('axios'); // You may need to install Axios if you haven't already
 //import axios from 'axios'
 
+
+function formatDayWithLeadingZero(date) {
+  if (!(date instanceof Date)) {
+    throw new Error('Input is not a valid Date object.');
+  }
+  const year = date.getFullYear();
+  const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Add 1 to the month since it's 0-indexed
+  const day = date.getDate().toString().padStart(2, '0');
+  return `${year}-${month}-${day}`;
+}
 class Get_Candle_Data extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   constructor(props) {
     super(props);
@@ -4413,7 +4434,6 @@ class Get_Candle_Data extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     };
   }
   fetchData() {
-    console.log(" I AM IN GET CANDLE_Data JS and Fetch Data");
     const candle_Data = __webpack_require__(/*! ./output.json */ "./src/components/output.json");
     for (let index = 0; index < candle_Data.length; index++) {
       const element = candle_Data[index];
@@ -4453,7 +4473,8 @@ class Get_Candle_Data extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
         }
       }
     };
-    this.chart = createChart(document.getElementById(this.props.containerId), chartOptions);
+    this.chart = (0,lightweight_charts__WEBPACK_IMPORTED_MODULE_1__.createChart)(document.getElementById(this.props.containerId), chartOptions);
+    console.log(this.props.dataId);
     const areaSeries = this.chart.addAreaSeries({
       lineColor: '#2962FF',
       topColor: '#2962FF',
@@ -4465,7 +4486,16 @@ class Get_Candle_Data extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     candlestickSeries.setData(this.CandleDATA_ARRAY);
   }
   render() {
-    return /*#__PURE__*/React.createElement("div", null);
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "grid-item-below-navbar"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("h2", {
+      className: "currency_header"
+    }, "USD/CAD"), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "chart_container",
+      id: this.props.containerId
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("div", {
+      className: "paragraph"
+    }, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement("p", null, "This will describe the chart and whats going on in it. This will describe the chart and whats going on in it. This will describe the chart and whats going on in it. This will describe the chart and whats going on in it.")));
   }
 }
 
@@ -4547,8 +4577,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var react__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(react__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var _Candle_Data__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./Candle_Data */ "./src/components/Candle_Data.js");
 /* harmony import */ var _Get_Candle_Data__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./Get_Candle_Data */ "./src/components/Get_Candle_Data.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
-/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router-dom/dist/index.js");
+/* harmony import */ var react_router_dom__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! react-router-dom */ "./node_modules/react-router/dist/index.js");
+/* harmony import */ var react_dom_client__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! react-dom/client */ "./node_modules/react-dom/client.js");
+
 
 
 
@@ -4558,17 +4590,23 @@ class Outer_Candle_Data extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
     super(props);
   }
   render() {
-    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_3__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Route, {
+    return /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.BrowserRouter, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Routes, null, /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
       path: "/charts",
       element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Candle_Data__WEBPACK_IMPORTED_MODULE_1__["default"], {
         containerId: "container1"
       })
-    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_4__.Route, {
-      path: "/view_data/1/",
-      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Get_Candle_Data__WEBPACK_IMPORTED_MODULE_2__["default"], null)
+    }), /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(react_router_dom__WEBPACK_IMPORTED_MODULE_5__.Route, {
+      path: "/view_data/<str:data_id>/",
+      element: /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(_Get_Candle_Data__WEBPACK_IMPORTED_MODULE_2__["default"], {
+        containerId: "container1",
+        dataId: data_id
+      })
     })));
   }
 }
+const domNode = document.getElementById('react_charts');
+const root = (0,react_dom_client__WEBPACK_IMPORTED_MODULE_3__.createRoot)(domNode);
+root.render( /*#__PURE__*/react__WEBPACK_IMPORTED_MODULE_0___default().createElement(Outer_Candle_Data, null));
 
 // document.addEventListener("DOMContentLoaded", function () {
 
@@ -34480,6 +34518,38 @@ if (
 }
         
   })();
+}
+
+
+/***/ }),
+
+/***/ "./node_modules/react-dom/client.js":
+/*!******************************************!*\
+  !*** ./node_modules/react-dom/client.js ***!
+  \******************************************/
+/***/ ((__unused_webpack_module, exports, __webpack_require__) => {
+
+
+
+var m = __webpack_require__(/*! react-dom */ "./node_modules/react-dom/index.js");
+if (false) {} else {
+  var i = m.__SECRET_INTERNALS_DO_NOT_USE_OR_YOU_WILL_BE_FIRED;
+  exports.createRoot = function(c, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.createRoot(c, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
+  exports.hydrateRoot = function(c, h, o) {
+    i.usingClientEntryPoint = true;
+    try {
+      return m.hydrateRoot(c, h, o);
+    } finally {
+      i.usingClientEntryPoint = false;
+    }
+  };
 }
 
 

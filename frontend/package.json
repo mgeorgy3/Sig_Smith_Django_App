@@ -28,6 +28,7 @@
     "lightweight-charts": "^4.1.1",
     "react-devtools": "^4.28.5",
     "react-router-dom": "^6.19.0",
-    "source-map-loader": "^4.0.1"
+    "source-map-loader" : "^4.0.1"
+    
   }
 }

@@ -2,7 +2,7 @@ import React, { Component } from "react";
 import Candle_Data from "./Candle_Data";
 import Get_Candle_Data from "./Get_Candle_Data";
 import {BrowserRouter as Router, Routes, Route, Link, Redirect,} from "react-router-dom"
-
+import { createRoot } from 'react-dom/client';
 
 export default class Outer_Candle_Data extends Component {
     constructor(props){
@@ -14,14 +14,17 @@ export default class Outer_Candle_Data extends Component {
         return (
             <Router>
                 <Routes>
-                    <Route path="/charts" element={<Candle_Data containerId ="container1" />} />
-                    <Route path="/view_data/1/" element={<Get_Candle_Data />} />
+                    <Route path="/charts" element={<Candle_Data containerId = "container1"/>} />
+                    <Route path="/view_data/<str:data_id>/" element={<Get_Candle_Data containerId= "container1" dataId = {data_id}/>} />
                 </Routes>
           </Router>
         );
     }
 }
 
+const domNode = document.getElementById('react_charts');
+const root = createRoot(domNode);
+root.render(<Outer_Candle_Data/>)
 
 
 

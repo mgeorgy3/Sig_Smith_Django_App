@@ -2,6 +2,7 @@
 <html>
 <head>
     <meta charset="utf-8">
+    
     <meta name = "viewport" content = "width=device-width, initial-scale=1"/>
     <link rel="stylesheet"
           href="https://fonts.googleapis.com/css?family=Tangerine">
@@ -22,10 +23,9 @@
 
     {% block extrahead %}{% endblock %}
 </head>
-<body>
+<body class = "body_tag">
    
         <div id = "navbar">
-            <div id = "root">
             <nav>
                 <ul>
                     <li class="logo-container" href="#">
@@ -43,6 +43,7 @@
                     <li><a class="nav_bar_element" href="#">Tools</a></li>
                     <li><a class="nav_bar_element" href="#">Contact</a></li>
                     <li><a class="nav_bar_element" href="/users">Create Account</a></li>
+                    <li><a class="nav_bar_element" href="/users">USD Oil Correlation</a></li>
                 </ul>
 
                 
@@ -50,7 +51,7 @@
 
             {% block content %}{% endblock %}
         
-        </div>
+        
     </div>
 </body>
 </html>

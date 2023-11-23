@@ -36,8 +36,10 @@ def view_data(request, *args, **kwargs):
     print(kwargs['id'])
 
     data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
+
     
-    return render(request,"frontend/view_charts.html", kwargs)
+    
+    return render(request,"frontend/view_charts.html", {'data_base_request_params': data_chunk})
 
 
 
