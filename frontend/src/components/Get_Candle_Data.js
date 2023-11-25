@@ -1,5 +1,5 @@
 //const axios = require('axios'); // You may need to install Axios if you haven't already
-//import axios from 'axios'
+import axios from 'axios'
 import React, { Component } from 'react';
 import { createChart } from 'lightweight-charts';
 
@@ -22,17 +22,67 @@ export default class Get_Candle_Data extends Component {
 
         //const file_path = props.file_path;
         
-        console.log(" I AM IN GET CANDLE_Data JS and Fetch Data");
         this.CandleDATA_ARRAY = [];
         this.volume_Data = [];
+        this.Request_Parameters;
 
         this.state = {
             CandleDATA_ARRAY: this.CandleDATA_ARRAY,
-            volume_Data: this.volume_Data
+            volume_Data: this.volume_Data,
+            Request_Parameters: this.Request_Parameters
         };
     }
 
+
     fetchData() {
+        let rp_url = '/api/fetch_params/' + this.props.dataId.data_id + '/';
+        fetch(rp_url)
+        .then(response => response.json())
+        .then(Request_Parameters => {
+            // Handle the fetched data
+            console.log(Request_Parameters)
+            this.setState({Request_Parameters: Request_Parameters})
+            const apiKey = '0a3bba7ed31e15ee1b95db50b8c7b708-203d09987f304d792baf7bcd6bb176a1'; // Replace with your file's path
+
+            const tokenPath = 'a09c0de6d587f58cc8fd89b1da17611a-b6ed55130caa024e533c9bbb1a1375d6'; // Replace with your file's path
+    
+            // Define the OANDA API endpoints
+            const baseUrl = "https://api-fxpractice.oanda.com";
+    
+            // Function to fetch historical price data
+
+            const instrument = Request_Parameters.FX_Pair;
+            const granularity = Request_Parameters.Granularity;
+            const from = Request_Parameters.Start_Date; // Start date
+            const to = Request_Parameters.End_Date; // Current time
+    
+            const url = `${baseUrl}/v3/instruments/${instrument}/candles`;
+            console.log(url)
+            console.log()
+            const headers = {
+                Authorization: `Bearer ${apiKey}`
+            };
+    
+            const params = {
+                granularity,
+                from,
+                to
+            };
+    
+            try {
+                const response = axios.get(url, { headers, params });
+                const historicalData = response.data;
+                return historicalData;
+            } catch (error) {
+                console.error('Error fetching historical data:', error);
+            }
+        })
+        .catch(error => {
+            console.error('Error fetching data:', error);
+        });
+
+
+      
 
         
         const candle_Data = require('./output.json')
@@ -71,6 +121,9 @@ export default class Get_Candle_Data extends Component {
 
     componentDidMount() {
         this.fetchData();
+        
+        //const { data_id } = useParams();
+        //console.log(data_id)
 
         const chartOptions = { layout: 
             { textColor: 'white', background: 
@@ -113,44 +166,9 @@ export default class Get_Candle_Data extends Component {
     }
 }
 
-// const apiKey = '101-001-24608229-001'; // Replace with your file's path
 
-// const tokenPath = 'a09c0de6d587f58cc8fd89b1da17611a-b6ed55130caa024e533c9bbb1a1375d6'; // Replace with your file's path
 
-// console.log(apiKey)
-// console.log(accountID)
 
-// // Define the OANDA API endpoints
-// const baseUrl = "https://api-fxpractice.oanda.com";
-
-// // Function to fetch historical price data
-// async function getHistoricalData() {
-//     const instrument = 'USD_NOK';
-//     const granularity = 'D';
-//     const from = '2020-11-01T00:00:00Z'; // Start date
-//     const to = new Date().toISOString(); // Current time
-
-//     const url = `${baseUrl}/v3/instruments/${instrument}/candles`;
-//     console.log(url)
-//     console.log(apiKey)
-//     const headers = {
-//         Authorization: `Bearer ${apiKey}`
-//     };
-
-//     const params = {
-//         granularity,
-//         from,
-//         to
-//     };
-
-//     try {
-//         const response = await axios.get(url, { headers, params });
-//         const historicalData = response.data;
-//         return historicalData;
-//     } catch (error) {
-//         console.error('Error fetching historical data:', error);
-//     }
-// }
 
 
 // some_stuff = getHistoricalData().then((historicalData) => {

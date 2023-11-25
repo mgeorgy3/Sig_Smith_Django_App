@@ -1,31 +1,33 @@
-import React, { Component } from "react";
+import * as React from "react";
 import Candle_Data from "./Candle_Data";
 import Get_Candle_Data from "./Get_Candle_Data";
-import {BrowserRouter as Router, Routes, Route, Link, Redirect,} from "react-router-dom"
+import {useParams, Routes, Route} from "react-router-dom";
+import { BrowserRouter as Router } from "react-router-dom";
+
 import { createRoot } from 'react-dom/client';
 
-export default class Outer_Candle_Data extends Component {
-    constructor(props){
-        super(props);
+function Get_Data() {
+    let data_id = useParams(); // Using useParams hook to get the data_id from the URL
 
-    }
+    return <Get_Candle_Data containerId="container1" dataId={data_id} />;
+};
 
-    render(){
-        return (
-            <Router>
-                <Routes>
-                    <Route path="/charts" element={<Candle_Data containerId = "container1"/>} />
-                    <Route path="/view_data/<str:data_id>/" element={<Get_Candle_Data containerId= "container1" dataId = {data_id}/>} />
-                </Routes>
-          </Router>
-        );
-    }
-}
+
+const Outer_Candle_Data = () => {
+    return (
+        <Router>
+            <Routes>
+                <Route path="/charts" element={<Candle_Data containerId = "container1"/>} />
+                <Route path="/view_data/:data_id/" element={<Get_Data />} />
+            </Routes>
+        </Router>
+    );
+};
+
 
 const domNode = document.getElementById('react_charts');
 const root = createRoot(domNode);
 root.render(<Outer_Candle_Data/>)
-
 
 
 

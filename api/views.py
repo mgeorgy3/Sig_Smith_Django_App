@@ -11,6 +11,23 @@ from rest_framework.renderers import TemplateHTMLRenderer
 from django.http import HttpResponse, HttpResponseRedirect
 from rest_framework.response import Response
 import logging
+
+
+from rest_framework.response import Response
+from rest_framework.decorators import api_view
+
+@api_view(['GET'])
+def get_data(request, *args, **kwargs):
+    print("WE GOT HERE")
+    try:
+        # Fetch a specific item from the database based on its ID
+        data = OANDA_Request_Paramaters.objects.get(id=kwargs['id'])
+        serializer = OANDA_Requests_Serializer(data)
+        return Response(serializer.data)
+    except OANDA_Request_Paramaters.DoesNotExist:
+        return Response({"error": "Item not found"}, status=404)
+
+
 def provide_oanda_request(request):
  
     # if this is a POST request we need to process the form data
@@ -87,20 +104,6 @@ def provide_oanda_request(request):
 
 
 """
-
-def succesful_form_view(request):
-    template = loader.get_template("api/succesful_entry.html")
-    ## can add content which can bbe accessed in te html by using the DTL markup llanguage like you can say "if some contex do this"  this can be used to make sure that users are authorized
-
-    return HttpResponse(template.render(request = request))
-
-def rest_api_form(request):
-    template = loader.get_template("api/api_form.html")
-    ## can add content which can bbe accessed in te html by using the DTL markup llanguage like you can say "if some contex do this"  this can be used to make sure that users are authorized
-
-    return HttpResponse(template.render(request = request))
-    pass
-
 
 
 class OANDA_Request_View(APIView):

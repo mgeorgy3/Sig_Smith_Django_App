@@ -30,7 +30,9 @@ export default class Candle_Data extends Component {
         };
     }
 
+    
     fetchData() {
+        
         const candle_Data = require('./output.json')
 
         for (let index = 0; index < candle_Data.length; index++) {
