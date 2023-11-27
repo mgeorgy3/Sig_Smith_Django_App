@@ -3,18 +3,36 @@ import axios from 'axios'
 import React, { Component } from 'react';
 import { createChart } from 'lightweight-charts';
 
-function formatDayWithLeadingZero(date) {
+function getUnixTimestamp(date) {
     if (!(date instanceof Date)) {
       throw new Error('Input is not a valid Date object.');
     }
   
-    const year = date.getFullYear();
-    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Add 1 to the month since it's 0-indexed
-    const day = date.getDate().toString().padStart(2, '0');
-  
-    return `${year}-${month}-${day}`;
+    // Convert the date to a Unix timestamp (milliseconds since the Unix epoch)
+    return date.getTime();
   }
-
+  
+  function formatUtcDateTimeWithLeadingZero(date) {
+    if (!(date instanceof Date)) {
+      throw new Error('Input is not a valid Date object.');
+    }
+  
+    const year = date.getUTCFullYear();
+    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
+    const day = date.getUTCDate().toString().padStart(2, '0');
+    const hours = date.getUTCHours().toString().padStart(2, '0');
+    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
+    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
+    const milliseconds = date.getUTCMilliseconds().toString().padStart(3, '0');
+  
+    // Convert the UTC timestamp to Unix timestamp
+    const unixTimestamp = getUnixTimestamp(date);
+  
+    return {
+      formattedDateTime: `${year}-${month}-${day} ${hours}:${minutes}`,
+      unixTimestamp: unixTimestamp,
+    };
+  }
 
 export default class Get_Candle_Data extends Component {
     constructor(props){
@@ -34,104 +52,96 @@ export default class Get_Candle_Data extends Component {
     }
 
 
-    fetchData() {
-        let rp_url = '/api/fetch_params/' + this.props.dataId.data_id + '/';
-        fetch(rp_url)
-        .then(response => response.json())
-        .then(Request_Parameters => {
-            // Handle the fetched data
-            console.log(Request_Parameters)
-            this.setState({Request_Parameters: Request_Parameters})
-            const apiKey = '0a3bba7ed31e15ee1b95db50b8c7b708-203d09987f304d792baf7bcd6bb176a1'; // Replace with your file's path
+    async fetchData() {
+        try {
+          const rp_url = '/api/fetch_params/' + this.props.dataId.data_id + '/';
+          const response = await fetch(rp_url);
+          const Request_Parameters = await response.json();
+    
+          // Handle the fetched data
+          console.log(Request_Parameters);
+          this.setState({ Request_Parameters });
+    
+          // Define the OANDA API endpoints
+          const baseUrl = 'https://api-fxpractice.oanda.com';
+    
+          // Function to fetch historical price data
+          const instrument = Request_Parameters.FX_Pair;
+          const granularity = Request_Parameters.Granularity;
+          const from = Request_Parameters.Start_Date; // Start date
+          const to = Request_Parameters.End_Date; // Current time
+    
+          const url = `${baseUrl}/v3/instruments/${instrument}/candles`;
+          console.log(url);
+    
+          const apiKey = 'a09c0de6d587f58cc8fd89b1da17611a-b6ed55130caa024e533c9bbb1a1375d6';
+          const headers = {
+            Authorization: `Bearer ${apiKey}`,
+          };
+    
+          const params = {
+            granularity,
+            from,
+            to,
+          };
+    
+          const historicalDataResponse = await axios.get(url, { headers, params });
+          const historicalData = historicalDataResponse.data;
+          console.log(historicalData);
 
-            const tokenPath = 'a09c0de6d587f58cc8fd89b1da17611a-b6ed55130caa024e533c9bbb1a1375d6'; // Replace with your file's path
-    
-            // Define the OANDA API endpoints
-            const baseUrl = "https://api-fxpractice.oanda.com";
-    
-            // Function to fetch historical price data
-
-            const instrument = Request_Parameters.FX_Pair;
-            const granularity = Request_Parameters.Granularity;
-            const from = Request_Parameters.Start_Date; // Start date
-            const to = Request_Parameters.End_Date; // Current time
-    
-            const url = `${baseUrl}/v3/instruments/${instrument}/candles`;
-            console.log(url)
-            console.log()
-            const headers = {
-                Authorization: `Bearer ${apiKey}`
-            };
-    
-            const params = {
-                granularity,
-                from,
-                to
-            };
-    
-            try {
-                const response = axios.get(url, { headers, params });
-                const historicalData = response.data;
-                return historicalData;
-            } catch (error) {
-                console.error('Error fetching historical data:', error);
-            }
-        })
-        .catch(error => {
-            console.error('Error fetching data:', error);
-        });
-
-
+          for (let index = 0; index < historicalData.candles.length; index++) {
+            const element = historicalData.candles[index];
+            const date = new Date(element.time);
       
-
-        
-        const candle_Data = require('./output.json')
-
-        for (let index = 0; index < candle_Data.length; index++) {
-          const element = candle_Data[index];
-          let date = new Date(element.time)
-          const formattedDate = formatDayWithLeadingZero(date);
-
-          let month = date.getMonth() + 1; // Adding 1 because months are 0-indexed
-          let day = date.getDate();
-          
-          let year = date.getFullYear();
+            const { formattedDateTime, unixTimestamp } = formatUtcDateTimeWithLeadingZero(date);
       
-
-          this.CandleDATA_ARRAY.push({ time: formattedDate, 
-                                      open: parseFloat(element.mid.o), 
-                                      high: parseFloat(element.mid.h), 
-                                      low: parseFloat(element.mid.l), 
-                                      close: parseFloat(element.mid.c)});
-          
-          this.volume_Data.push({ time: formattedDate, value: parseInt(element.volume)});
+            this.CandleDATA_ARRAY.push({
+              time: unixTimestamp,
+              open: parseFloat(element.mid.o),
+              high: parseFloat(element.mid.h),
+              low: parseFloat(element.mid.l),
+              close: parseFloat(element.mid.c),
+            });
+      
+            this.volume_Data.push({ time: unixTimestamp, value: parseInt(element.volume) });
           }
-
+      
           this.setState({
-              CandleDATA_ARRAY: this.CandleDATA_ARRAY,
-              volume_Data: this.volume_Data
+            CandleDATA_ARRAY: this.CandleDATA_ARRAY,
+            volume_Data: this.volume_Data,
           });
-
-         console.log(this.CandleDATA_ARRAY);
-          //console.log(candle_Data);
-          
-
-        
+      
+          console.log(this.CandleDATA_ARRAY);
+          return historicalData;
+        } catch (error) {
+          console.error('Error fetching data:', error);
         }
-
-    componentDidMount() {
-        this.fetchData();
+      }
         
-        //const { data_id } = useParams();
-        //console.log(data_id)
+        
+        
 
-        const chartOptions = { layout: 
-            { textColor: 'white', background: 
-            { type: 'solid', color: 'black' } } };
+    async componentDidMount() {
 
+        // Await this function and then call then graph it.
+        await this.fetchData();
+
+        const chartOptions = {
+            layout: {
+              textColor: 'white',
+              background: { type: 'solid', color: 'black' },
+            },
+            timeScale: {
+              timeVisible: true,
+              tickMarkFormatter: (time) => {
+                const date = new Date(time * 1000); // Convert Unix timestamp to milliseconds
+                const formattedDateTime = formatUtcDateTimeWithLeadingZero(date).formattedDateTime;
+                return formattedDateTime;
+              },
+            },
+          };
+          
         this.chart = createChart(document.getElementById(this.props.containerId), chartOptions);
-
-        console.log(this.props.dataId)
         
 
         const areaSeries = this.chart.addAreaSeries({
@@ -142,13 +152,20 @@ export default class Get_Candle_Data extends Component {
         const candlestickSeries = this.chart.addCandlestickSeries()
 
         //areaSeries.setData(volume_Data);
+        console.log(this.CandleDATA_ARRAY)
         candlestickSeries.setData(this.CandleDATA_ARRAY);
     }
         
     render() {
+        const { Request_Parameters } = this.state;
+
+        if (!Request_Parameters) {
+          // Data is still loading, you might want to show a loading indicator
+          return <p>Loading...</p>;
+        }
         return (
             <div className="grid-item-below-navbar">
-                <h2 className="currency_header">USD/CAD</h2>
+                <h2 className="currency_header">{Request_Parameters.FX_Pair}</h2> 
                 <div className="chart_container" id={this.props.containerId}>
             </div>
             
@@ -165,8 +182,6 @@ export default class Get_Candle_Data extends Component {
           );
     }
 }
-
-
 
 
 
