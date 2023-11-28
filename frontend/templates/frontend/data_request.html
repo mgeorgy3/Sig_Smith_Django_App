@@ -23,8 +23,17 @@
                     <p class = 'dr_p'>Granularity: {{ item.Granularity }}</p>
                     <p class = 'dr_p'>Start: {{ item.Start_Date }}</p>
                     <p class = 'dr_p'>End: {{ item.End_Date }}</p>
-                </a></li>
+                    {% comment %} <div id="X_button">
+                        <span onclick="myFunction()" class="X_button">X</span>
+                    </div> {% endcomment %}
+                </a>
+                
+            </li>
             {% endfor %}
         </ul>
     </div>
 {% endblock content %}
+
+
+
+{% comment %} <a class = "dr_li" href= "{% url 'frontend:view_data' item.id %}"> {% endcomment %}

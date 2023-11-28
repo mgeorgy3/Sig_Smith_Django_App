@@ -7,7 +7,8 @@ app_name = "frontend"
 urlpatterns = [
     path('', main),
     path('charts', charts, name="charts"),
-    path('display_data_list', display_data_list),
+    path('display_data_list', display_data_list, name="display_data_list"),
     path('view_data/<str:id>/', view_data, name = "view_data"),
     path('users', create_user, name='create_user'),
+    path('live_data/<str:id>/', view_data, name = "live_data"),
 ]

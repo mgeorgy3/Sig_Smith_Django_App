@@ -5,11 +5,18 @@ import {useParams, Routes, Route} from "react-router-dom";
 import { BrowserRouter as Router } from "react-router-dom";
 
 import { createRoot } from 'react-dom/client';
+import Live_Data from "./Live_Data";
 
 function Get_Data() {
     let data_id = useParams(); // Using useParams hook to get the data_id from the URL
 
     return <Get_Candle_Data containerId="container1" dataId={data_id} />;
+};
+
+function Get_Live_Data() {
+    let data_id = useParams(); // Using useParams hook to get the data_id from the URL
+
+    return <Live_Data containerId="container1" dataId={data_id} />;
 };
 
 
@@ -19,6 +26,7 @@ const Outer_Candle_Data = () => {
             <Routes>
                 <Route path="/charts" element={<Candle_Data containerId = "container1"/>} />
                 <Route path="/view_data/:data_id/" element={<Get_Data />} />
+                <Route path = "/live_data/:data_id/" element={<Get_Live_Data />}/>
             </Routes>
         </Router>
     );

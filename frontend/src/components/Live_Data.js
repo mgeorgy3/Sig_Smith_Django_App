@@ -34,7 +34,7 @@ function getUnixTimestamp(date) {
     };
   }
 
-export default class Get_Candle_Data extends Component {
+export default class Live_Data extends Component {
     constructor(props){
         super(props);
 
@@ -70,6 +70,14 @@ export default class Get_Candle_Data extends Component {
           const granularity = Request_Parameters.Granularity;
           const from = Request_Parameters.Start_Date; // Start date
           const to = Request_Parameters.End_Date; // Current time
+
+          const logResults = (data) => {
+            console.log('Streaming data:', data);
+          };
+          
+          const handleError = (error) => {
+            console.error('Error:', error);
+          };
     
           const url = `${baseUrl}/v3/instruments/${instrument}/candles`;
           console.log(url);

@@ -4573,29 +4573,6 @@ class Get_Candle_Data extends react__WEBPACK_IMPORTED_MODULE_0__.Component {
   }
 }
 
-// some_stuff = getHistoricalData().then((historicalData) => {
-//     // You can access the historicalData here
-//     console.log(historicalData);
-//     // Now you can work with the historical data
-
-//     console.log(historicalData.candles)
-
-//     const jsonData = JSON.stringify(historicalData.candles, null, 2); // The second argument is for formatting (2 spaces for indentation)
-
-//     // Specify the file path where you want to save the JSON data
-//     const filePath = 'USD_NOK.json';
-
-//     // Write the JSON data to a file
-//     fs.writeFile(filePath, jsonData, 'utf8', (err) => {
-//     if (err) {
-//         console.error('Error writing the file:', err);
-//     } else {
-//         console.log('JSON data has been written to', filePath);
-//     }
-//     });
-
-//   });
-
 /***/ }),
 
 /***/ "./src/components/Outer_Candle_Data.js":
