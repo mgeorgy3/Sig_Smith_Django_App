@@ -1,0 +1,43 @@
+{% extends "frontend/index.html" %}
+
+{% load static %}
+
+{%load rest_framework %}
+
+{%block title %} Sockets Seem Pretty Cool{% endblock %}
+
+{% block content %}
+
+    <div id='socket-to-me'>
+
+    </div>
+
+    <h1>SOCKET TO ME</h1>
+
+    <button> Stop Stream </button>
+
+    <script>
+
+
+        const chatSocket = new WebSocket(
+                'ws://'
+                + window.location.host
+                + '/api/live-end-point/'
+            );
+
+        chatSocket.onmessage = function(e) {
+            const data = JSON.parse(e.data);
+            console.log("WOW SOME DATA", data)
+        };
+
+        chatSocket.onclose = function(e) {
+            console.error('Chat socket closed unexpectedly');
+        };
+        
+    </script>
+
+
+
+    
+    
+{% endblock content %}

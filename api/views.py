@@ -168,13 +168,13 @@ def send_OANDA_request(request, *args, **kwargs):
 
 def api_get_live_data(request, *args, **kwargs):
 
-    template = loader.get_template("frontend/view_charts.html")
+    #template = loader.get_template("frontend/view_charts.html")
 
     print("Hello")
 
     
 
-    return render(request, "frontend/view_charts.html")
+    return render(request, "api/socket.html")
     
 
 

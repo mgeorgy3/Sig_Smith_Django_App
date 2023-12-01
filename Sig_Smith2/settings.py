@@ -31,6 +31,8 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -140,3 +142,6 @@ LOGGING = {
         "level": "WARNING",
     },
 }
+
+
+ASGI_APPLICATION = "Sig_Smith2.asgi.application"
