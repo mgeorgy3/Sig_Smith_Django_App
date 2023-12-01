@@ -54,7 +54,8 @@ export default class Get_Candle_Data extends Component {
 
     async fetchData() {
         try {
-          const rp_url = '/api/fetch_params/' + this.props.dataId.data_id + '/';
+          console.log("IN GET CANDLE DATA HERE IS DATAID",  this.props.dataId)
+          const rp_url = '/api/fetch_params/' + this.props.dataId + '/';
           const response = await fetch(rp_url);
           const Request_Parameters = await response.json();
     
@@ -74,7 +75,7 @@ export default class Get_Candle_Data extends Component {
           const url = `${baseUrl}/v3/instruments/${instrument}/candles`;
           console.log(url);
     
-          const apiKey = 'a09c0de6d587f58cc8fd89b1da17611a-b6ed55130caa024e533c9bbb1a1375d6';
+          const apiKey = '5df72a7b015f65d651bb94b5c3debf17-4f936395133828cfc5c83d8b2220d062';
           const headers = {
             Authorization: `Bearer ${apiKey}`,
           };
@@ -169,15 +170,6 @@ export default class Get_Candle_Data extends Component {
                 <div className="chart_container" id={this.props.containerId}>
             </div>
             
-
-            <div className = "paragraph">
-                <p>
-                    This will describe the chart and whats going on in it.
-                    This will describe the chart and whats going on in it.
-                    This will describe the chart and whats going on in it.
-                    This will describe the chart and whats going on in it.
-                </p>
-            </div>
             </div>
           );
     }

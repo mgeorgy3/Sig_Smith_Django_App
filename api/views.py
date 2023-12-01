@@ -28,6 +28,20 @@ def get_data(request, *args, **kwargs):
         return Response({"error": "Item not found"}, status=404)
 
 
+@api_view(['GET'])
+def get_data_list(request, *args, **kwargs):
+    print("WE GOT HERE")
+    try:
+        # Fetch a specific item from the database based on its ID
+        data = OANDA_Request_Paramaters.objects.all()
+        serializer = OANDA_Requests_Serializer(data, many=True)
+
+        # Return the serialized data as a response
+        return Response(serializer.data)
+        
+    except OANDA_Request_Paramaters.DoesNotExist:
+        return Response({"error": "Item not found"}, status=404)
+
 def provide_oanda_request(request):
  
     # if this is a POST request we need to process the form data
@@ -150,6 +164,17 @@ def send_OANDA_request(request, *args, **kwargs):
     data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
     
     return render(request,"frontend/view_charts.html", kwargs)
+
+
+def api_get_live_data(request, *args, **kwargs):
+
+    template = loader.get_template("frontend/view_charts.html")
+
+    print("Hello")
+
+    
+
+    return render(request, "frontend/view_charts.html")
     
 
 

@@ -66,3 +66,25 @@ def live_data(request, *args, **kwargs):
     
     
     return render(request,"frontend/view_charts.html", {'data_base_request_params': data_chunk})
+
+
+def training_data(request, *args, **kwargs):
+
+    template = loader.get_template("frontend/Training_Data.html")
+    
+    if request.method == 'GET':
+        return render(request,"frontend/Training_Data.html")
+    if request.method == 'POST':
+        print(kwargs['id'])
+        data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
+        return render(request,"frontend/Training_Data.html", {'data_base_request_params': data_chunk})
+
+def get_live_data(request, *args, **kwargs):
+    print(kwargs['id'])
+    data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
+    return render(request,"frontend/Training_Data.html", {'data_base_request_params': data_chunk})
+
+    
+    
+    
+    
