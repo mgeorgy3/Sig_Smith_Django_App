@@ -44,7 +44,7 @@ function Get_Live_Data() {
 
 
   const Multi_Page_App = () => {
-    console.log("YOUUU ARE GAY")
+    
     return (
       <Router>
         <Routes>
