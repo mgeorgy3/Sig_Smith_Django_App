@@ -68,6 +68,13 @@ li a:hover {
     margin: 8px;
 }
 
+/* THIS IS ALL FOR REACT-DIV */
+
+.root-for-react-everywhere{
+    display: flex;
+}
+
+
 
 .chart_container {
     display: flex;
@@ -98,12 +105,13 @@ li a:hover {
     grid-template-columns: 20% 80%;
     grid-template-rows: 400px 400px;
     place-items: center;
+    /*color: rgb(50, 46, 71);*/
     
 }
 
 .currency_header {
     display: flex;
-    color: rgb(0, 197, 49);
+    color: rgb(0, 125, 197);
     justify-content: center;
 }
 
@@ -149,11 +157,13 @@ li a:hover {
 
 /* Style for the form container */
 .custom-form {
+    /*display: flex;*/
+    /*justify-content: center;*/
     max-width: 400px;
-    margin: 0 auto;
+    margin: 10px;
     padding: 20px;
-    background-color: #f7f7f7;
-    border: 1px solid #ccc;
+    background-color: #f7f7f8;
+    border: 2px solid #ccc;
     border-radius: 5px;
 }
 
@@ -170,11 +180,6 @@ li a:hover {
     cursor: pointer;
 }
 
-/* Style for form labels (if needed) */
-.custom-form label {
-    display: block;
-    margin-bottom: 5px;
-}
 
 .dropdown {
     position: relative;
@@ -193,3 +198,4 @@ li a:hover {
 .dropdown:hover .dropdown-content {
     display: block;
 }
+

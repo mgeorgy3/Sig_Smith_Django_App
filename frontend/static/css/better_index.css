@@ -1,0 +1,146 @@
+body {
+    background-color: hsl(215, 21%, 27%)
+}
+
+
+
+nav {
+    background-color: rgb(94, 91, 91); /* Background color of the navbar */
+    margin-bottom: 20px;
+}
+
+ul {
+    list-style-type: none;
+    margin: 0;
+    padding: 0;
+    overflow: hidden;
+}
+
+li {
+    float: left;
+}
+
+li a {
+    display: block;
+    color: white; /* Text color for the links */
+    text-align: center;
+    padding: 14px 16px;
+    text-decoration: none;
+}
+
+li a:hover {
+    background-color: #555; /* Background color on hover */
+}
+
+.logo-container {
+    display: flex;
+    align-items: center;
+    cursor: pointer;
+}
+
+.logo {
+    width: 56px;
+    height: 56px;
+
+}
+
+.text-container {
+    /*display: flex;*/
+    flex-direction: column;
+    align-items: flex-start;   
+}
+
+.top-text {
+    color: rgb(0, 197, 49);
+    font-family: "IM_Fell_English";
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.bottom-text {
+    color: rgb(255, 95, 95);
+    font-family: "IM_Fell_English";
+    margin-top: 0;
+    margin-bottom: 0;
+}
+
+.nav_bar_element {
+    margin: 8px;
+}
+
+
+/* THIS IS WHERE WE PUT EVERYTHING THAT ISNT THE NAVBAR*/
+
+
+.grid{
+    display: grid;
+    grid-template-columns: 900px 300px;
+    grid-template-rows: auto auto;
+    margin: 2%;
+    place-items: center;
+    grid-template-areas:
+    "a b"
+    "c d";
+    align-items: start;
+}
+
+.chart-with-more {
+    
+    grid-area: a;
+    height: auto;
+    width: fit-content;
+}
+
+.chart_container {
+    display: flex;
+    align-items: start;
+    border: 3px solid rgb(43, 134, 226);
+    border-radius: 20px;
+    overflow: hidden; 
+    direction: ltr; 
+    width: 812px; 
+    height: 250px; 
+    user-select: none;
+}
+
+
+.currency_header {
+    margin-top: 0%;
+    display: flex;
+    align-items: flex-start;
+    justify-content: center;
+    color: rgb(0, 125, 197);
+}
+
+.list-of-data-sets {
+    display: flex;
+    grid-area: b;
+    align-items: flex-end;
+    justify-content: flex-end;
+    height: auto;
+    width: auto;
+}
+
+.oanda_submit_form {
+    display: flex;
+    grid-area: d;
+    align-items: flex-end;
+    justify-content: flex-end;
+    height: auto;
+    width: auto;
+}
+
+
+
+
+
+/* Style for the form container */
+.custom-form {
+    width: 400px;
+    margin: 10px;
+    padding: 20px;
+    background-color: #f7f7f8;
+    border: 2px solid #ccc;
+    border-radius: 5px;
+}
+

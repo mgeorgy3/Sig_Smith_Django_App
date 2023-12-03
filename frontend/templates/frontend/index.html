@@ -19,11 +19,13 @@
       rel="stylesheet"
       href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700&display=swap"
     />
-    <link rel="stylesheet" type="text/css" href="{% static "css/index.css" %}"/>
+    <link rel="stylesheet" type="text/css" href="{% static "css/better_index.css" %}"/>
 
     {% block extrahead %}{% endblock %}
 </head>
 <body class = "body_tag">
+
+    
    
         <div id = "navbar">
             <nav>
@@ -37,7 +39,7 @@
                         </div>
                     </li>
                     <li><a class="nav_bar_element" href="/">Home</a></li>
-                    <li><a class="nav_bar_element" href="/charts">Charts</a></li>
+                    {% comment %} <li><a class="nav_bar_element" href="/charts">Charts</a></li> {% endcomment %}
                     <li><a class="nav_bar_element" href="/api/rest_api_form"> Make Charts</a></li>
                     <li><a class="nav_bar_element" href="/display_data_list"> See Data</a></li>
                     <li><a class="nav_bar_element" href="/api/api-live-data">Test Web Sockets</a></li>
@@ -53,7 +55,11 @@
 
         </div>
 
-            {% block content %}{% endblock %}
+        <div id ="root-for-react-everywhere" class= "grid">
+
+        </div>
+
+        {% block content %}{% endblock %}
         
         
     

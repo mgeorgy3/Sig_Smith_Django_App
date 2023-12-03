@@ -1,2 +1,2 @@
-import Outer_Training_Data from "./components/Outer_Training_Data"
+import Multi_Page_App from './components/Multi_Page_App'
 //import Outer_Candle_Data from "./components/Outer_Candle_Data";

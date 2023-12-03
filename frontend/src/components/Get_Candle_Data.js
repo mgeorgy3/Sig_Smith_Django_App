@@ -1,6 +1,6 @@
 //const axios = require('axios'); // You may need to install Axios if you haven't already
 import axios from 'axios'
-import React, { Component } from 'react';
+import React, { Component, Fragment } from 'react';
 import { createChart } from 'lightweight-charts';
 
 function getUnixTimestamp(date) {
@@ -141,6 +141,8 @@ export default class Get_Candle_Data extends Component {
               },
             },
           };
+
+        
           
         this.chart = createChart(document.getElementById(this.props.containerId), chartOptions);
         
@@ -165,12 +167,10 @@ export default class Get_Candle_Data extends Component {
           return <p>Loading...</p>;
         }
         return (
-            <div className="grid-item-below-navbar">
+            <Fragment>
                 <h2 className="currency_header">{Request_Parameters.FX_Pair}</h2> 
-                <div className="chart_container" id={this.props.containerId}>
-            </div>
-            
-            </div>
+                <div className="chart_container" id={this.props.containerId}> </div>
+            </Fragment>
           );
     }
 }

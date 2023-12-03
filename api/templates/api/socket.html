@@ -14,7 +14,7 @@
 
     <h1>SOCKET TO ME</h1>
 
-    <button> Stop Stream </button>
+    <button onclick="stop_stream()"> Stop Stream </button>
 
     <script>
 
@@ -33,6 +33,10 @@
         chatSocket.onclose = function(e) {
             console.error('Chat socket closed unexpectedly');
         };
+
+        function stop_stream() {
+            
+        }
         
     </script>
 

@@ -2,7 +2,7 @@ from django.shortcuts import render, loader
 from django.shortcuts import get_object_or_404, redirect
 
 # Create your views here.
-from rest_framework import generics
+from rest_framework import generics, status
 from .models import OANDA_Request_Paramaters, OANDA_Form
 from django.forms import modelformset_factory
 from.serializers import OANDA_Requests_Serializer
@@ -13,8 +13,11 @@ from rest_framework.response import Response
 import logging
 
 
+
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
+from django.utils.decorators import method_decorator
+from django.views.decorators.csrf import csrf_protect
 
 @api_view(['GET'])
 def get_data(request, *args, **kwargs):
@@ -119,25 +122,28 @@ def provide_oanda_request(request):
 
 """
 
-
+@method_decorator(csrf_protect, name='dispatch')
 class OANDA_Request_View(APIView):
     queryset = OANDA_Request_Paramaters.objects.all()
     serializer_class = OANDA_Requests_Serializer
-    
     renderer_classes = [TemplateHTMLRenderer]
     template_name = 'api/api_form.html'
 
+    
     def post(self, request, *args, **kwargs):
-        
+        print("HELLO FROM POST")
 
         oanda_request = OANDA_Request_Paramaters()
         oanda_serializer = OANDA_Requests_Serializer(oanda_request, data=request.data)
 
         if not oanda_serializer.is_valid():
-            return Response(template_name="api/api_form.html", 
-                        data={'serializer': oanda_serializer,
+            print("OF")
+            return Response("The Parameters are invalid", status=status.HTTP_400_BAD_REQUEST)
+        """
+        Response(template_name="api/api_form.html", 
+                        data={'serializer': oanda_serializer, 
                               'oanda_request': oanda_request})
-        
+        """
         oanda_serializer.save()
 
         #template = loader.get_template("api/api_form.html")

@@ -4,7 +4,7 @@ from channels.generic.websocket import WebsocketConsumer
 
 
 
-class ChatConsumer(WebsocketConsumer):
+class Live_OANDA_DATA(WebsocketConsumer):
     def connect(self):
         print("TRYING TO CONNECT")
         self.accept()

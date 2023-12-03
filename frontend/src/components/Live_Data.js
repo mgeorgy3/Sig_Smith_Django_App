@@ -38,11 +38,21 @@ function getUnixTimestamp(date) {
 
 
 export default function Live_Data(props) {
-  let WS_URL = "wss://javascript.info/article/websocket/demo/hello";
+
+    console.log("IN LIVE DATA HERE IS DATAID",  props.dataId)
+    let WS_URL = 'ws://'+ window.location.host + '/api/live-end-point/' + props.dataId;
 
         useWebSocket(WS_URL, {
           onOpen: () => {
             console.log('WebSocket connection established.');
+          },
+          onClose: () => {
+              console.log("CLOSED")
+          },
+          onMessage: (e) => {
+            const data = JSON.parse(e.data);
+            console.log("WOW you sent a message")
+
           }
         });
   
