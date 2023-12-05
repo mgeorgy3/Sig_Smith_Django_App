@@ -1,0 +1,20 @@
+{% extends "frontend/index.html" %}
+
+{% load static %}
+
+{%load rest_framework %}
+
+{%block title %} Sockets Seem Pretty Cool{% endblock %}
+
+{% block content %}
+
+    <div id='socket-to-me'>
+
+    </div>
+
+    <h1>SOCKET TO ME</h1>
+
+    
+    <script src="{% static 'frontend/main.js' %}"></script>
+    
+{% endblock content %}

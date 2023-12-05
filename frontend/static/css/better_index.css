@@ -1,12 +1,14 @@
 body {
-    background-color: hsl(215, 21%, 27%)
+    background-color: #182A3A;
+    /*background-color: hsl(215, 21%, 27%)*/
 }
 
 
 
 nav {
-    background-color: rgb(94, 91, 91); /* Background color of the navbar */
+    background-color: #45515F; /* Background color of the navbar */
     margin-bottom: 20px;
+    
 }
 
 ul {
@@ -14,28 +16,32 @@ ul {
     margin: 0;
     padding: 0;
     overflow: hidden;
+    color: #E0A100;
 }
 
 li {
     float: left;
+    color: #E0A100;
 }
 
 li a {
     display: block;
-    color: white; /* Text color for the links */
+    color: #E0A100; /* Text color for the links */
     text-align: center;
     padding: 14px 16px;
     text-decoration: none;
+
 }
 
 li a:hover {
-    background-color: #555; /* Background color on hover */
+    background-color: #2A323C; /* Background color on hover */
 }
 
 .logo-container {
     display: flex;
     align-items: center;
     cursor: pointer;
+    
 }
 
 .logo {
@@ -94,7 +100,7 @@ li a:hover {
 .chart_container {
     display: flex;
     align-items: start;
-    border: 3px solid rgb(43, 134, 226);
+    border: 3px solid #3476AD;
     border-radius: 20px;
     overflow: hidden; 
     direction: ltr; 
@@ -109,7 +115,7 @@ li a:hover {
     display: flex;
     align-items: flex-start;
     justify-content: center;
-    color: rgb(0, 125, 197);
+    color: #E0A100;
 }
 
 .list-of-data-sets {
@@ -139,8 +145,9 @@ li a:hover {
     width: 400px;
     margin: 10px;
     padding: 20px;
-    background-color: #f7f7f8;
-    border: 2px solid #ccc;
+    color: #ccc;
+    background-color: #052449;
+    border: 2px solid #3476AD;
     border-radius: 5px;
 }
 

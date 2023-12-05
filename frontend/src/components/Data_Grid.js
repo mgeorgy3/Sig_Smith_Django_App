@@ -3,75 +3,76 @@ import React, { Component, Fragment, useState, useEffect} from "react";
 //import { experimentalStyled as styled } from '@mui/material/styles';
 import Box from '@mui/material/Box';
 
-
 import ListItem from '@mui/material/ListItem';
 import ListItemButton from '@mui/material/ListItemButton';
 import ListItemText from '@mui/material/ListItemText';
 import { FixedSizeList } from 'react-window';
 
 
+function renderRow (props) { //const Row = ({ index, key, style }) => (
+      const {oanda_requests} = props
+      console.log("THis is props", oanda_requests)
+  
+      return(
+      <ListItem key={index} component="div" disablePadding>
+            <ListItemButton component="a" href={'/training-data/' + oanda_requests[index].id + '/'}>
+              {console.log(index)}
+              <ListItemText 
+                  primary={oanda_requests[index].FX_Pair + " Gran " + 
+                  props.oanda_requests[index].Granularity +
+                  "\n" + " Period " + 
+                  props.oanda_requests[index].Start_Date + " " + props.oanda_requests[index].End_Date} 
+                />
+            </ListItemButton>
+      </ListItem>
+      )
+}
+
+
 export default function Data_Grid(props) {
-    const [data_params, setDataparams] = useState([])
-    const [loading, setLoading] = useState(true);
+    console.log("in data grid")
+    console.log(props)
+
     
 
-    useEffect(() => {
-      
-        const fetchData = async () => {
-            try {
-                
-                const rp_url ='/api/fetch-params-list';
-                const response =  await fetch(rp_url);
-                const Param_List = await response.json();
-                
-                
-                console.log(Param_List)
-                setDataparams(Param_List)
-                setLoading(false);
+    const Row = ({index, style}) => {
 
-            } catch (error) {
+      console.log(style)
 
-                console.error("Error", error);
-                setLoading(false);
-            }
-        };
-        
-        fetchData();
-        
-        console.log("WE ARE FETCHING DATA AGAIN")
-    }, []);
+      const ItemStyle = {
+        ...style,
+        borderBottom: '1px solid #190E4F',
+        color: '#ccc',
+        marginBottom: "20%",
+        boxShadow: '1px'
+      }
 
-    if (loading) {
-        return <p>Loading your data sets</p>
+      console.log(ItemStyle)
+
+      return (
+      <ListItem key={index} style={ItemStyle} component="div" disablePadding>
+            <ListItemButton component="a" href={'/training-data/' + props.oanda_requests[index].id + '/'}>
+              {console.log(index)}
+              <ListItemText 
+                  primary={props.oanda_requests[index].FX_Pair + " Gran " + 
+                  props.oanda_requests[index].Granularity +
+                  "\n" + " Period " + 
+                  props.oanda_requests[index].Start_Date + " " + props.oanda_requests[index].End_Date} 
+                />
+            </ListItemButton>
+      </ListItem>
+      )
     }
-      const Row = ({ index }) => ( //const Row = ({ index, key, style }) => (
-        
-        <ListItem key={index} component="div" disablePadding>
-              <ListItemButton component="a" href={'/training-data/' + data_params[index].id + '/'}>
-                {console.log(index)}
-                <ListItemText 
-                    primary={data_params[index].FX_Pair + " Gran " + 
-                    data_params[index].Granularity +
-                    "\n" + " Period " + 
-                    data_params[index].Start_Date + " " + data_params[index].End_Date} 
-                  />
-              </ListItemButton>
-        </ListItem>
-       )
-
-
-    //const navigate = useNavigate()
-
 
     return (
       <Box 
-        sx={{ width: '100%', height: 400, maxWidth: 360, bgcolor: 'rgb(50, 46, 71)' }}>
+        sx={{ width: '100%', height: 400, maxWidth: 360, bgcolor: '#8F0000', border: '3px solid #190E4F', 
+        borderRadius: 2}}>
         <FixedSizeList
           height={400}
           width={360}
-          itemSize={35}
-          itemCount={data_params.length}
-          
+          itemSize={100}
+          itemCount={props.oanda_requests.length}
         >
         {Row}
       </FixedSizeList>

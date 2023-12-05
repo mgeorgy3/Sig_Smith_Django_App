@@ -1,9 +1,8 @@
 //const axios = require('axios'); // You may need to install Axios if you haven't already
 import axios from 'axios'
-import React, { Component } from 'react';
+import React, { Component,  useState, useCallback, useEffect} from 'react';
 import { createChart } from 'lightweight-charts';
 import useWebSocket from 'react-use-websocket';
-
 
 function getUnixTimestamp(date) {
     if (!(date instanceof Date)) {
@@ -39,29 +38,64 @@ function getUnixTimestamp(date) {
 
 export default function Live_Data(props) {
 
-    console.log("IN LIVE DATA HERE IS DATAID",  props.dataId)
-    let WS_URL = 'ws://'+ window.location.host + '/api/live-end-point/' + props.dataId;
+      console.log("IN LIVE DATA HERE IS DATAID",  props.dataId)
+      let socketUrl = 'ws://'+ window.location.host + '/api/live-end-point/';
+      const [messageHistory, setMessageHistory] = useState([]);
 
-        useWebSocket(WS_URL, {
-          onOpen: () => {
-            console.log('WebSocket connection established.');
-          },
-          onClose: () => {
-              console.log("CLOSED")
-          },
-          onMessage: (e) => {
-            const data = JSON.parse(e.data);
-            console.log("WOW you sent a message")
+      const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
 
+    
+      useEffect(() => {
+          if (lastMessage !== null) {
+            setMessageHistory((prev) => prev.concat(lastMessage));
           }
-        });
+        }, [lastMessage, setMessageHistory]);
+
+        const handleClickSendMessage = useCallback(() => sendMessage('Hello'), []);
+
+        const connectionStatus = {
+          [ReadyState.CONNECTING]: 'Connecting',
+          [ReadyState.OPEN]: 'Open',
+          [ReadyState.CLOSING]: 'Closing',
+          [ReadyState.CLOSED]: 'Closed',
+          [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+        }[readyState];
+
+        return (
+          <div>
+            
+            <button
+              onClick={handleClickSendMessage}
+              disabled={readyState !== ReadyState.OPEN}
+            >
+              Click Me to send 'Hello'
+            </button>
+            <span>The WebSocket is currently {connectionStatus}</span>
+            {lastMessage ? <span>Last message: {lastMessage.data}</span> : null}
+            <ul>
+              {messageHistory.map((message, idx) => (
+                <span key={idx}>{message ? message.data : null}</span>
+              ))}
+            </ul>
+          </div>
+          );
+      };
+
   
-  return (
-      <h1>Hello</h1>
+//   return (
+//     <div>
 
-  );
+    
+//       <h1>Testing Streaming</h1>
+//       <button href={Close_WS} formMethod='POST'>
+//           Close Stream
+//       </button>
 
-}
+//       </div>
+
+//   );
+
+// }
 
 // export default class Live_Data extends Component {
 //     constructor(props){

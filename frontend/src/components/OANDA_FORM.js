@@ -108,17 +108,23 @@ export default function OANDA_FORM() {
     }
     };
   
+    const itemStyle = {
+      color: '#ccc'
+
+    }
+  
   return (
     <form onSubmit={handleSubmit} className='custom-form'>
       <Grid  container direction="row" justifyContent="center" alignItems="center" spacing={2}>
         <Grid item xs={5}>
           <FormControl fullWidth>
-            <InputLabel id="fx-pair-label">FX Pair</InputLabel>
+            <InputLabel id="fx-pair-label" style={itemStyle}>FX Pair</InputLabel>
             <Select
               labelId="fx-pair-label"
               id="FX_Pair"
               value={formData.FX_Pair}
               onChange={handleChange('FX_Pair')}
+              style={itemStyle}
             >
               {FX_array.map((pair) => (
                 <MenuItem key={pair} value={pair}>

@@ -6,6 +6,9 @@ from django.shortcuts import get_object_or_404, render
 from django.shortcuts import render, redirect
 from django.contrib.auth import login
 from .models import CustomUserCreationForm
+from django.urls import reverse
+
+from api.routing import websocket_urlpatterns
 
 
 def main(request):
@@ -77,13 +80,16 @@ def training_data(request, *args, **kwargs):
     if request.method == 'POST':
         print(kwargs['id'])
         data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
-        return render(request,"frontend/Training_Data.html", {'data_base_request_params': data_chunk})
+        return redirect(reverse('training-data_POST', {'data_base_request_params': data_chunk} ))
+        #return render(request,"frontend/Training_Data.html", {'data_base_request_params': data_chunk})
 
 def get_live_data(request, *args, **kwargs):
-    print(kwargs['id'])
-    data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
-    return render(request,"frontend/Training_Data.html", {'data_base_request_params': data_chunk})
+    
+    #data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
+    print("I AM IN FRONTEND VIEWS")
 
+    print(websocket_urlpatterns[0])
+    return render(request,"frontend/stream.html")
     
     
     
