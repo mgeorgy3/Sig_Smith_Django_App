@@ -21,7 +21,7 @@ from django.views.decorators.csrf import csrf_protect
 
 @api_view(['GET'])
 def get_data(request, *args, **kwargs):
-    print("WE GOT HERE")
+    print("Fetching a specific parameter request from the database")
     try:
         # Fetch a specific item from the database based on its ID
         data = OANDA_Request_Paramaters.objects.get(id=kwargs['id'])
@@ -33,13 +33,14 @@ def get_data(request, *args, **kwargs):
 
 @api_view(['GET'])
 def get_data_list(request, *args, **kwargs):
-    print("WE GOT HERE")
+    print("Fetching the Data List from the Database")
     try:
         # Fetch a specific item from the database based on its ID
         data = OANDA_Request_Paramaters.objects.all()
         serializer = OANDA_Requests_Serializer(data, many=True)
 
         # Return the serialized data as a response
+        #print(Response(serializer.data))
         return Response(serializer.data)
         
     except OANDA_Request_Paramaters.DoesNotExist:

@@ -2,7 +2,7 @@
 import axios from 'axios'
 import React, { Component,  useState, useCallback, useEffect} from 'react';
 import { createChart } from 'lightweight-charts';
-import useWebSocket from 'react-use-websocket';
+import useWebSocket, {ReadyState} from 'react-use-websocket';
 
 function getUnixTimestamp(date) {
     if (!(date instanceof Date)) {
@@ -38,48 +38,76 @@ function getUnixTimestamp(date) {
 
 export default function Live_Data(props) {
 
-      console.log("IN LIVE DATA HERE IS DATAID",  props.dataId)
-      let socketUrl = 'ws://'+ window.location.host + '/api/live-end-point/';
-      const [messageHistory, setMessageHistory] = useState([]);
 
-      const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
+        const chatSocket = new WebSocket('ws://'+ window.location.host + '/api/live-end-point/');
+        
+        const betterSocket =  new WebSocket('ws://stream-fxpractice.oanda.com/v3/accounts/101-001-24608229-001/pricing/stream')  
+
+
+
+
+          betterSocket.onmessage = ({data}) => {
+            console.log(data)
+        };
+
+
+  return (
+      <div>
+
+
+
+
+
+      </div>
+
+
+  );
+
+
+};
+
+      // console.log("IN LIVE DATA HERE IS DATAID",  props.dataId)
+      // let socketUrl = 'ws://'+ window.location.host + '/api/live-end-point/';
+      // const [messageHistory, setMessageHistory] = useState([]);
+
+      // const { sendMessage, lastMessage, readyState } = useWebSocket(socketUrl);
 
     
-      useEffect(() => {
-          if (lastMessage !== null) {
-            setMessageHistory((prev) => prev.concat(lastMessage));
-          }
-        }, [lastMessage, setMessageHistory]);
+      // useEffect(() => {
+      //     if (lastMessage !== null) {
+      //       setMessageHistory((prev) => prev.concat(lastMessage));
+      //     }
+      //   }, [lastMessage, setMessageHistory]);
 
-        const handleClickSendMessage = useCallback(() => sendMessage('Hello'), []);
+      //   const handleClickSendMessage = useCallback(() => sendMessage('Hello'), []);
 
-        const connectionStatus = {
-          [ReadyState.CONNECTING]: 'Connecting',
-          [ReadyState.OPEN]: 'Open',
-          [ReadyState.CLOSING]: 'Closing',
-          [ReadyState.CLOSED]: 'Closed',
-          [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
-        }[readyState];
+      //   const connectionStatus = {
+      //     [ReadyState.CONNECTING]: 'Connecting',
+      //     [ReadyState.OPEN]: 'Open',
+      //     [ReadyState.CLOSING]: 'Closing',
+      //     [ReadyState.CLOSED]: 'Closed',
+      //     [ReadyState.UNINSTANTIATED]: 'Uninstantiated',
+      //   }[readyState];
 
-        return (
-          <div>
+      //   return (
+      //     <div>
             
-            <button
-              onClick={handleClickSendMessage}
-              disabled={readyState !== ReadyState.OPEN}
-            >
-              Click Me to send 'Hello'
-            </button>
-            <span>The WebSocket is currently {connectionStatus}</span>
-            {lastMessage ? <span>Last message: {lastMessage.data}</span> : null}
-            <ul>
-              {messageHistory.map((message, idx) => (
-                <span key={idx}>{message ? message.data : null}</span>
-              ))}
-            </ul>
-          </div>
-          );
-      };
+      //       <button
+      //         onClick={handleClickSendMessage}
+      //         disabled={readyState !== ReadyState.OPEN}
+      //       >
+      //         Click Me to send 'Hello'
+      //       </button>
+      //       <span>The WebSocket is currently {connectionStatus}</span>
+      //       {lastMessage ? <span>Last message: {lastMessage.data}</span> : null}
+      //       <ul>
+      //         {messageHistory.map((message, idx) => (
+      //           <span key={idx}>{message ? message.data : null}</span>
+      //         ))}
+      //       </ul>
+      //     </div>
+      //     );
+      // };
 
   
 //   return (
