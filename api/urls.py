@@ -1,7 +1,7 @@
 
 from django.contrib import admin
 from django.urls import path, include
-from .views import OANDA_Request_View, send_OANDA_request, get_data, get_data_list, api_get_live_data
+from .views import OANDA_Request_View, send_OANDA_request, get_data, get_data_list
 
 app_name = 'api'
 
@@ -14,5 +14,4 @@ urlpatterns = [
     path('get_data_start_point<str:id>', send_OANDA_request, name= "send_Oanda_Request"),
     path('fetch_params/<str:id>/', get_data, name ='fetch_params'),
     path('fetch-params-list', get_data_list, name='fetch-params-list'),
-    path('api-live-data', api_get_live_data, name="api-live-data")
 ]

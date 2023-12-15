@@ -8,11 +8,10 @@ from django.forms import modelformset_factory
 from.serializers import OANDA_Requests_Serializer
 from rest_framework.views import APIView
 from rest_framework.renderers import TemplateHTMLRenderer
-from django.http import HttpResponse, HttpResponseRedirect
+from django.http import HttpResponse, HttpResponseRedirect, HttpRequest
 from rest_framework.response import Response
 import logging
-
-
+from .consumers import Live_OANDA_DATA
 
 from rest_framework.response import Response
 from rest_framework.decorators import api_view
@@ -173,15 +172,13 @@ def send_OANDA_request(request, *args, **kwargs):
     return render(request,"frontend/view_charts.html", kwargs)
 
 
-def api_get_live_data(request, *args, **kwargs):
+# def api_get_live_data(request, *args, **kwargs):
 
-    #template = loader.get_template("frontend/view_charts.html")
-
-    print("Hello")
+#     #template = loader.get_template("frontend/view_charts.html")
+#     my_consumer = Live_OANDA_DATA()
+#     my_consumer.connect()
 
     
-
-    return render(request, "api/socket.html")
+#     return render(request, "api/socket.html")
     
-
 

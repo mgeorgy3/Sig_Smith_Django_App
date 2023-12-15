@@ -1,0 +1,29 @@
+{% extends "frontend/index.html" %}
+
+{% load static %}
+
+{%load rest_framework %}
+
+{%block title %} Rest API work {% endblock %}
+
+{% block content %}
+
+
+     <h1>
+        You have accessed that data set from OANDA and it is now stored on your account.
+     </h1>
+
+     <h1>
+        Would You Like to Get More data?
+     </h1>
+
+     <form action="rest_api_form" method="get"> 
+        <button type ="submit"> Yes </button>
+    </form>
+
+     <form action="{% url 'frontend:display_data_list' %}" method="get"> 
+        <button type ="submit"> No </button>
+    </form>
+    
+    
+{% endblock content %}

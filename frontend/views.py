@@ -58,17 +58,15 @@ def create_user(request):
     return render(request, 'users/login_form.html', {'form': form})
 
 
-def live_data(request, *args, **kwargs):
+# def live_data(request, *args, **kwargs):
 
-    template = loader.get_template("frontend/view_charts.html")
-    
-    print(kwargs['id'])
+#     template = loader.get_template("frontend/view_charts.html")
 
-    data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
+#     data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
 
     
     
-    return render(request,"frontend/view_charts.html", {'data_base_request_params': data_chunk})
+#     return render(request,"frontend/view_charts.html", {'data_base_request_params': data_chunk})
 
 
 def training_data(request, *args, **kwargs):
@@ -83,14 +81,8 @@ def training_data(request, *args, **kwargs):
         return redirect(reverse('training-data_POST', {'data_base_request_params': data_chunk} ))
         #return render(request,"frontend/Training_Data.html", {'data_base_request_params': data_chunk})
 
-def get_live_data(request, *args, **kwargs):
     
-    #data_chunk = get_object_or_404(OANDA_Request_Paramaters, id = kwargs['id'])
-    print("I AM IN FRONTEND VIEWS")
+def live_data(request, *args, **kwargs):
+    
 
-    print(websocket_urlpatterns[0])
     return render(request,"frontend/stream.html")
-    
-    
-    
-    

@@ -1,6 +1,6 @@
 //const axios = require('axios'); // You may need to install Axios if you haven't already
 import axios from 'axios'
-import React, { Component,  useState, useCallback, useEffect} from 'react';
+import React, { Component,  useState, useCallback, useEffect, onClick} from 'react';
 import { createChart } from 'lightweight-charts';
 import useWebSocket, {ReadyState} from 'react-use-websocket';
 
@@ -37,29 +37,68 @@ function getUnixTimestamp(date) {
 
 
 export default function Live_Data(props) {
+  
+      const[LiveData_Socket, setLiveData_Socket] = useState()
+      
+      //const betterSocket =  new WebSocket('ws://stream-fxpractice.oanda.com/v3/accounts/101-001-24608229-001/pricing/stream')  
+
+      console.log("HELLo I am in Live Data")
 
 
-        const chatSocket = new WebSocket('ws://'+ window.location.host + '/api/live-end-point/');
+      function Activate_Stream() {
+        if(!LiveData_Socket) {
+          console.log("THIS FUCKING BUTTON WORKS")
+          const outer_LiveData_Socket = new WebSocket('ws://'+ window.location.host + '/api/live-end-point/');
+          setLiveData_Socket(outer_LiveData_Socket)
+        }
         
-        const betterSocket =  new WebSocket('ws://stream-fxpractice.oanda.com/v3/accounts/101-001-24608229-001/pricing/stream')  
+      }
 
-
-
-
-          betterSocket.onmessage = ({data}) => {
-            console.log(data)
+      if(LiveData_Socket){
+        LiveData_Socket.onmessage = function(e) {
+          const data = JSON.parse(e.data);
+          console.log("Normal", data)
+          //console.log("Parse", JSON.parse(e))
+          //console.log("Parse Data", JSON.parse(JSON.stringify(e.data)))
+          //document.querySelector('#log').value += (data.message + '\n');
         };
+  
+        LiveData_Socket.onclose = function(e) {
+          console.error('Chat socket closed unexpectedly');
+        };
+      }
+
+      function Close_Stream() {
+        if(LiveData_Socket){
+          LiveData_Socket.send("Please Close")
+          LiveData_Socket.close()
+          console.log("Close")
+          setLiveData_Socket(false)
+        }
+      }
+
+
+      
+
+      //   betterSocket.onmessage = ({data}) => {
+      //     console.log(data)
+      // };
 
 
   return (
       <div>
 
+        <textarea id="log" cols="100" rows="20"></textarea>
 
 
+        <button onClick={ Activate_Stream }> Start Stream </button>
 
+
+        <button onClick={ Close_Stream }>Close Stream</button>
+
+        
 
       </div>
-
 
   );
 

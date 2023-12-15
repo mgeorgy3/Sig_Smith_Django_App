@@ -137,13 +137,13 @@ export default function OANDA_FORM() {
         </Grid>
         <Grid item xs={4} >
           <FormControl fullWidth>
-            <InputLabel id="granularity-label">Granularity</InputLabel>
+            <InputLabel id="granularity-label" style={itemStyle}>Granularity</InputLabel>
             <Select
               labelId="granularity-label"
               id="Granularity"
               value={formData.Granularity}
               onChange={handleChange('Granularity')}
-            >
+              style={itemStyle}>
               {Granularity_array.map((granularity) => (
                 <MenuItem key={granularity} value={granularity}>
                   {granularity}
@@ -153,7 +153,7 @@ export default function OANDA_FORM() {
           </FormControl>
         </Grid>
         <Grid item xs={8}>
-        <InputLabel id="start_date-label" >Start Date</InputLabel>
+        <InputLabel id="start_date-label" style={itemStyle}>Start Date</InputLabel>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
               textField={(props) => <TextField {...props} fullWidth label="Start_Date" />}
@@ -163,12 +163,13 @@ export default function OANDA_FORM() {
           </LocalizationProvider>
         </Grid>
         <Grid item xs={8}>
-        <InputLabel id="end_date-label" >End Date</InputLabel>
+        <InputLabel id="end_date-label" style={itemStyle}>End Date</InputLabel>
           <LocalizationProvider dateAdapter={AdapterDayjs}>
             <DateTimePicker
               textField={(props) => <TextField {...props} fullWidth='true' label="End_Date" />}
               value={formData.to}
               onChange={handleDateTimeChange('End_Date')}
+              style={itemStyle}
             />
           </LocalizationProvider>
         </Grid>
