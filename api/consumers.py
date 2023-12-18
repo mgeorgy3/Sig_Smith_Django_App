@@ -6,10 +6,6 @@ from asgiref.sync import async_to_sync
 import pprint as pp
 
 
-
-
-
-
 class Live_OANDA_DATA(WebsocketConsumer):
     
     def connect(self):
@@ -19,7 +15,8 @@ class Live_OANDA_DATA(WebsocketConsumer):
 
 
         self.accept()
-        self.oanda_stream()
+        async_to_sync(self.oanda_stream())
+        
 
         
 
