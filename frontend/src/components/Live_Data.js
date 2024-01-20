@@ -3,6 +3,7 @@ import axios from 'axios'
 import React, { Component,  useState, useCallback, useEffect, onClick} from 'react';
 import { createChart } from 'lightweight-charts';
 import useWebSocket, {ReadyState} from 'react-use-websocket';
+import {sendRequest} from "./httpClient"
 
 function getUnixTimestamp(date) {
     if (!(date instanceof Date)) {
@@ -13,29 +14,6 @@ function getUnixTimestamp(date) {
     return date.getTime();
   }
   
-  function formatUtcDateTimeWithLeadingZero(date) {
-    if (!(date instanceof Date)) {
-      throw new Error('Input is not a valid Date object.');
-    }
-  
-    const year = date.getUTCFullYear();
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-    const day = date.getUTCDate().toString().padStart(2, '0');
-    const hours = date.getUTCHours().toString().padStart(2, '0');
-    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
-    const milliseconds = date.getUTCMilliseconds().toString().padStart(3, '0');
-  
-    // Convert the UTC timestamp to Unix timestamp
-    const unixTimestamp = getUnixTimestamp(date);
-  
-    return {
-      formattedDateTime: `${year}-${month}-${day} ${hours}:${minutes}`,
-      unixTimestamp: unixTimestamp,
-    };
-  }
-
-
 export default function Live_Data(props) {
   
       const[LiveData_Socket, setLiveData_Socket] = useState()
@@ -44,17 +22,60 @@ export default function Live_Data(props) {
 
       console.log("HELLo I am in Live Data")
 
+      // const headers = {
+      //   Authorization: "Bearer 5df72a7b015f65d651bb94b5c3debf17-4f936395133828cfc5c83d8b2220d062",
+      //   instruments: "USD_NOK",
+      // };
+      
+
 
       function Activate_Stream() {
         if(!LiveData_Socket) {
-          console.log("THIS FUCKING BUTTON WORKS")
-          const outer_LiveData_Socket = new WebSocket('ws://'+ window.location.host + '/api/live-end-point/');
-          setLiveData_Socket(outer_LiveData_Socket)
+          // console.log("THIS FUCKING BUTTON WORKS")
+          // const base_url = "wss://stream-fxpractice.oanda.com/v3/accounts/101-001-24608229-001/pricing/stream";
+    
+          // const outer_LiveData_Socket = new WebSocket(base_url, { headers: { Authorization: "Bearer 5df72a7b015f65d651bb94b5c3debf17-4f936395133828cfc5c83d8b2220d062" } });
+
+          // //, { headers: { Authorization: "Bearer 5df72a7b015f65d651bb94b5c3debf17-4f936395133828cfc5c83d8b2220d062" } }
+          // const subscribeMsg = {
+          //   type: 'PRICE',
+          //   instruments: ['USD_NOK'],
+          //   accountId: '101-001-24608229-001',
+          //   };
+          // socket.send(JSON.stringify(subscribeMsg));
+          this.accountId = "101-001-24608229-001"
+          this.accessToken = "5df72a7b015f65d651bb94b5c3debf17-4f936395133828cfc5c83d8b2220d062"
+          this.priceSubscriptions = "GBP_USD"
+
+          console.log(this.accessToken)
+
+          // setLiveData_Socket(outer_LiveData_Socket)
+          console.log("Button")
+          pricesRequest = httpClient.sendRequest(
+            {
+                hostname: this.streamHost,
+                method: "GET",
+                path: `/v3/accounts/${this.accountId}/pricing/stream?instruments=` + this.priceSubscriptions,
+                headers: {
+                    Authorization: "Bearer " + this.accessToken
+                },
+                stream: true
+            },
+            this._onPricesResponse.bind(this, accountId),
+            this._onPricesData.bind(this)
+        )
+
+        
+
+
+
+
         }
         
       }
 
       if(LiveData_Socket){
+        
         LiveData_Socket.onmessage = function(e) {
           const data = JSON.parse(e.data);
           console.log("Normal", data)

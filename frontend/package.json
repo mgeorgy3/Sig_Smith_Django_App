@@ -29,14 +29,20 @@
     "@mui/material": "^5.14.19",
     "@mui/x-date-pickers": "^6.18.2",
     "axios": "^1.6.2",
+    "buffer": "^6.0.3",
     "dayjs": "^1.11.10",
+    "https": "^1.0.0",
+    "https-browserify": "^1.0.0",
     "jquery": "^3.7.1",
     "lightweight-charts": "^4.1.1",
+    "querystring": "^0.2.1",
     "react-devtools": "^4.28.5",
     "react-router-dom": "^6.19.0",
     "react-use-websocket": "^4.5.0",
     "react-window": "^1.8.10",
     "socket.io": "^4.7.2",
-    "source-map-loader": "^4.0.1"
+    "source-map-loader": "^4.0.1",
+    "stream-http": "^3.2.0",
+    "url": "^0.11.3"
   }
 }
