@@ -9,11 +9,36 @@ import Get_Candle_Data from "./Get_Candle_Data";
 
 import Live_Data from "./Live_Data";
 import OANDA_FORM from "./OANDA_FORM";
+import Instrument_List from "./Instrument_List";
 
 
+import { Account_Details } from "./account_details";
+
+function Get_Current_Account() {
+    console.log("IN GET Cuyrrent")
+    const account_Dict = Account_Details()
+    console.log(account_Dict.accountId)
+    async function fetchdata() {
+        try {
+            const rp_url = '/api/get_current_user_info';
+            const response = await fetch(rp_url);
+            const Request_Parameters = await response.json();
+            
+            
+        }catch(error){
+            console.error("Error")
+        };
+        return null
+    }
+
+
+    const accountDetails = fetchdata()
+ 
+}
 function Get_Data(props) {
     const { data_id } = useParams(); // Using useParams hook to get the data_id from the URL
     //
+    Get_Current_Account()
     return (
       <Fragment>
         <div id="chart-with-more" className="chart-with-more">
@@ -30,12 +55,19 @@ function Get_Data(props) {
     );
   }
 
-function Get_Live_Data() {
+function Get_Live_Data(props) {
     //const { data_id } = useParams(); // Using useParams hook to get the data_id from the URL
-    //
+    const { instrument_id } = useParams()
     return (
       <Fragment>
-        <Live_Data /> 
+
+        <div id="chart-with-more" className="chart-with-more">
+          <Live_Data instrument = {instrument_id} /> 
+        </div>
+
+        <div id='list-of-data-sets' className="list-of-data-sets">
+          <Instrument_List />
+        </div>
       </Fragment>
     );
   }
@@ -45,6 +77,7 @@ function Get_Live_Data() {
 
     const [data_params, setDataparams] = useState([])
     const [loading, setLoading] = useState(true);
+    const [instrument_id, setInstrument_id] = useState("USD_NOK");
     console.log("Running Function")
 
     useEffect(() => {
@@ -80,6 +113,7 @@ function Get_Live_Data() {
           <Route path="/training-data" element={<><Get_Candle_Data/> <Data_Grid oanda_requests = {data_params}/><OANDA_FORM/></>} />
           <Route path="/training-data/:data_id/" element={<Get_Data oanda_requests = {data_params}/>} />
           <Route path = "/live-data" element = {<Get_Live_Data />} />
+          <Route path = "/live-data/:instrument_id/" element =  {<Get_Live_Data instrument = {instrument_id}/>} /> 
         </Routes>
       </Router>
     );

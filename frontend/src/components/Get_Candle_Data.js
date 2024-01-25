@@ -3,37 +3,54 @@ import axios from 'axios'
 import React, { Component, Fragment } from 'react';
 import { createChart } from 'lightweight-charts';
 
-function getUnixTimestamp(date) {
-    if (!(date instanceof Date)) {
-      throw new Error('Input is not a valid Date object.');
-    }
-  
-    // Convert the date to a Unix timestamp (milliseconds since the Unix epoch)
-    return date.getTime();
-  }
-  
+
   function formatUtcDateTimeWithLeadingZero(date) {
     if (!(date instanceof Date)) {
       throw new Error('Input is not a valid Date object.');
     }
+
   
-    const year = date.getUTCFullYear();
-    const month = (date.getUTCMonth() + 1).toString().padStart(2, '0');
-    const day = date.getUTCDate().toString().padStart(2, '0');
-    const hours = date.getUTCHours().toString().padStart(2, '0');
-    const minutes = date.getUTCMinutes().toString().padStart(2, '0');
-    const seconds = date.getUTCSeconds().toString().padStart(2, '0');
-    const milliseconds = date.getUTCMilliseconds().toString().padStart(3, '0');
+    const year = date.getFullYear();
+    //console.log("year", year)
+    const month = (date.getMonth() + 1).toString().padStart(2, '0');
+    const day = date.getDay().toString().padStart(2, '0');
+    const hours = date.getHours().toString().padStart(2, '0');
+    const minutes = date.getMinutes().toString().padStart(2, '0');
+    const seconds = date.getSeconds().toString().padStart(2, '0');
+    const milliseconds = date.getMilliseconds().toString().padStart(3, '0');
   
     // Convert the UTC timestamp to Unix timestamp
-    const unixTimestamp = getUnixTimestamp(date);
+    //const unixTimestamp = date.getTime();
   
     return {
-      formattedDateTime: `${year}-${month}-${day} ${hours}:${minutes}`,
-      unixTimestamp: unixTimestamp,
+      formattedDateTime: `${year}-${month}-${day}`, //${hours}:${minutes}`,
+      unixTimestamp: date.getTime(),
     };
   }
 
+
+function my_format_date(date) {
+  const Date_In = new Date(date)
+
+  console.log(Date_In)
+
+  //console.log(Date_In.toISOString())
+  //console.log(Date_In.toLocaleString())
+  const year = Date_In.getFullYear();
+  //console.log("year", year)
+  const month = (Date_In.getMonth() + 1).toString();
+  const day = Date_In.getDay().toString();
+  const hours = Date_In.getHours().toString();
+  const minutes = Date_In.getMinutes().toString();
+  const seconds = Date_In.getSeconds().toString();
+  //console.log(`${year}-${month}-${day}`)
+
+  return {
+    Chart_Date_Time: `${year}-${month}-${day}-${hours}:${minutes}`,
+    unixTimestamp: Date_In.getTime(),
+  }
+
+}
 export default class Get_Candle_Data extends Component {
     constructor(props){
         super(props);
@@ -75,7 +92,7 @@ export default class Get_Candle_Data extends Component {
           const url = `${baseUrl}/v3/instruments/${instrument}/candles`;
           console.log(url);
     
-          const apiKey = '5df72a7b015f65d651bb94b5c3debf17-4f936395133828cfc5c83d8b2220d062';
+          const apiKey = 'd88d9a6af501b04454813af5c5d24089-6aa02d844016f3722a226c61064873f9';
           const headers = {
             Authorization: `Bearer ${apiKey}`,
           };
@@ -92,9 +109,11 @@ export default class Get_Candle_Data extends Component {
 
           for (let index = 0; index < historicalData.candles.length; index++) {
             const element = historicalData.candles[index];
-            const date = new Date(element.time);
+            const date = element.time;
+
+            //console.log(date)
       
-            const { formattedDateTime, unixTimestamp } = formatUtcDateTimeWithLeadingZero(date);
+            const { Chart_Date_Time, unixTimestamp } = my_format_date(date);
       
             this.CandleDATA_ARRAY.push({
               time: unixTimestamp,
@@ -135,8 +154,9 @@ export default class Get_Candle_Data extends Component {
             timeScale: {
               timeVisible: true,
               tickMarkFormatter: (time) => {
-                const date = new Date(time * 1000); // Convert Unix timestamp to milliseconds
-                const formattedDateTime = formatUtcDateTimeWithLeadingZero(date).formattedDateTime;
+
+                const date = new Date(time); // Convert Unix timestamp to milliseconds
+                const formattedDateTime = my_format_date(date).Chart_Date_Time;
                 return formattedDateTime;
               },
             },

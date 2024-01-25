@@ -17,6 +17,8 @@ from rest_framework.response import Response
 from rest_framework.decorators import api_view
 from django.utils.decorators import method_decorator
 from django.views.decorators.csrf import csrf_protect
+from django.contrib.auth.models import User
+from django.contrib.auth import get_user_model
 
 @api_view(['GET'])
 def get_data(request, *args, **kwargs):
@@ -72,55 +74,6 @@ def provide_oanda_request(request):
         form = OANDA_Form()
 
     return render(request, "api/forms.html", {"form": form})
-
-
-
-
-"""
-
-    def FX_DF(self, *, make_file = False):
-
-        params = {}
-
-        params.update("granularity")
-        params.update("from", self.Start_Date)
-
-
-
-        path = "/v3/instruments/{}/candles".format(self.FX_Pair)
-
-        url = "{}{}".format(self._base_url, path)
-
-        res = requests.get(url, headers=self._headers, params=params)
-
-        data = []
-        index_in = []
-        for r in res.json()["candles"]:
-            data.append(
-                [
-                    
-                    float(r["mid"]["o"]),
-                    float(r["mid"]["h"]),
-                    float(r["mid"]["l"]),
-                    float(r["mid"]["c"]),
-                    float(r["volume"])
-
-                ]        
-                )
-                    #index_in.append(pd.to_datetime(r["time"]))
-            index_in.append(pd.Timestamp(r["time"]))
-        self.df = pd.DataFrame(data, columns=["Open", "High", "Low", "Close", "Volume"], index= index_in)        
-        
-        if make_file:
-            file_From = str(self.From_).replace(":", ".")
-            file_To = str(self.to_).replace(":", ".")
-            #print(file_From)
-            filename = 'TickerDataClass_OUT/' + self.granularity + '_' + self.instrument + '_' + file_From + '_' + file_To + '.csv'
-            self.df.to_csv(filename)
-        return self.df
-
-
-"""
 
 @method_decorator(csrf_protect, name='dispatch')
 class OANDA_Request_View(APIView):
@@ -178,7 +131,16 @@ def send_OANDA_request(request, *args, **kwargs):
 #     my_consumer = Live_OANDA_DATA()
 #     my_consumer.connect()
 
-    
+
 #     return render(request, "api/socket.html")
+def get_current_user_info(request, *args, **kwargs):
+
+    current_user = get_user_model()
+
+    print(current_user.objects)
+
+
+
+    return HttpResponse(content="200")
     
 

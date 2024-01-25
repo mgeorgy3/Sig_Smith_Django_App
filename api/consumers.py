@@ -15,7 +15,7 @@ class Live_OANDA_DATA(WebsocketConsumer):
 
 
         self.accept()
-        async_to_sync(self.oanda_stream())
+        self.oanda_stream()
         
 
         

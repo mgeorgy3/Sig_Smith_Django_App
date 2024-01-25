@@ -13,5 +13,6 @@ urlpatterns = [
     path('users', create_user, name='create_user'),
     path('training-data', training_data, name = "training-data"),
     path('training-data/<str:id>/', training_data, name = "training-data_POST"),
-    path('live-data', live_data, name="live-data")
+    path('live-data', live_data, name="live-data"),
+    path('live-data/<str:id>/', live_data, name="live-data"),
 ]
